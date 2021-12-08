@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:id="@+id/call" android:title="who can call me" android:visible="true"/>
+
+    <item android:id="@+id/view" android:title="who can view me" android:visible="true"/>
+
+</menu>

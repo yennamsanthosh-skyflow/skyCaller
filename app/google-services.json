@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "574785769274",
+    "project_id": "skycaller-7e0c6",
+    "storage_bucket": "skycaller-7e0c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574785769274:android:3b7208a8c3b77cbd820a03",
+        "android_client_info": {
+          "package_name": "com.example.skycaller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574785769274-6oagpg3v2p9c0tgo4ovpg81bfvd9l04g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC70sMj6uQcAV2WOP6k9Ym03pLP9ZLYdQ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574785769274-6oagpg3v2p9c0tgo4ovpg81bfvd9l04g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
