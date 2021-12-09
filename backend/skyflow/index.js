@@ -1,38 +1,11 @@
-const getRowFromVault = (device_id) => {
-    // Todo: get row from vault based on tokens stored in local DB
+import { Skyflow } from 'skyflow-node';
 
-    /*
-        Input: {
-            device_id: ID of user, primary_key in local DB
-        }
-    */
-
-    /*
-    steps:
-    1. get row of tokens from local DB with primary_key "device_id" (Use: DBClient.get('device_id'))
-    2. get tokens from vault using detokenize API
-    */
-}
-
-const updateContacts = (device_id, contacts) => {
-    // Todo: update user data with contacts
-    
-    /*
-        input: {
-            device_id: user device ID, primary key in local DB
-            contacts: Array of phone numbers
-        }
-    */
-
-    /*
-        steps:
-        1. Get required tokens from local DB (TODO)
-        2. Call the update API with necessary details (TODO)
-        3. Store the tokens returned from API call in local DB (TODO)
-    */
-}
-
-export const skyflowClient = {
-    get: getRowFromVault,
-    updateContacts: updateContacts,
-}
+export const skyflowClient = Skyflow.init({
+    vaultID: "e728297fbdf846cfacff7fa13adb8b15",
+    vaultURL: "https://sb.area51.vault.skyflowapis.dev",
+    getBearerToken: () => {
+        return new Promise((resolve,reject)=>{
+            resolve("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2MiOiJmNzk0ZmY4NmZiYzgxMWVhYmQ2YzNhOTExNDNlM2Q0MiIsImF1ZCI6Imh0dHBzOi8vbWFuYWdlLnNreWZsb3dhcGlzLmRldiIsImV4cCI6MTYzOTE0MDk4MzIwOCwiaWF0IjoxNjM5MDU0NTgzMjA4LCJpc3MiOiJzYS1hdXRoQG1hbmFnZS5za3lmbG93YXBpcy5kZXYiLCJqdGkiOiJhMzllYmE0ODYxM2E0Y2ZkYWVhNDMxY2IxZTIyMWY0MiIsInN1YiI6ImEyMWE0MDI3MmM5MjQ1YzQ4ODZjNDFlNjU4NDdjMTMxIn0.D9raYOm685aUpH7CcJttgFixK01dNJeBWbsXhluFsZOjzheVpdV2VzDooOolbJjDiLlaGu4epM_OQWeFljIivg9DTSJH0EKC534H2z2Fg4PonHsCaTpb5yBFU5Fk-opNFGEGiZPIhpAJLsVYtCNpVjnYxMD4mGsZiwbKyHCEmpY8-08WtGygUcQB3aKcgZ1fpEM1twSliO6iCmLijMjrO4H3bU9Ff-OntubHz72_fOkvshp9jwbQTKVxKdEoxy2-Sy0XWLzzbbtEYA0ZE7_YnwLSa0g4hx1J5AnOgf5zZG_Pt287owPBxaBm5ogFrhadh7P9hMPmvaoeHYmipUanYQ")
+        });
+    }
+});

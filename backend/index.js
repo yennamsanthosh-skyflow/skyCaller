@@ -1,60 +1,42 @@
-const express = require("express");
+import  express  from 'express'
+import { Skyflow } from 'skyflow-node';
+import { skyflowClient } from './skyflow';
 const app = express();
 const port = 3000;
 
 const routes = {
-  GET_DETAILS: "/details",
-  SAVE_CONTACTS: "/contacts"
+  VERIFY: "/verify",
 }
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 
-app.get(routes.SAVE_CONTACTS, () => {
-  // TODO: implement function to save all the contact numbers of user
+app.get(routes.VERIFY, async (req, res) => {
+  const {caller_id, receiver_id, isMyContact} = req.body
 
-  /*
-    steps:
-    1. Update user row's "contacts" column with array of phone numbers (Use: skyflowClient.updateContacts(device_id, contacts))
-  */
-
-    /*
-      requestBody: {
-        device_id: str,
-        contact_numbers: [str]
+  const details = await skyflowClient.getById(
+    {
+      records: {
+        fields: {
+          ids: [caller_id, receiver_id],
+          table: tablename,
+          redaction: Skyflow.RedactionType.PLAIN_TEXT
+        }
       }
+    })["records"]
+  const caller_details = details[0]["fields"]
+  const receiver_details = details[0]["fields"]
 
-      response: {
-        success: bool
-      }
-    */
-})
-
-app.get(routes.GET_DETAILS, () => {
-  // TODO: implement function to get caller details based on caller and receiver configs
-
-  /*
-    steps:
-    1. Get caller_info (Use: skyflowClient.get('caller_id'))
-    2. Get receiver_config (Use: configStore.get('receiver_id'))
-    3. Check if receiver_config has any rules that block caller_config [location, business, time] (Use: utils.verifyCaller(caller_info))
-      3.1 If yes, return notify: false
-    4. Get caller_config (Use: configStore.get('caller_id'))
-    5. Check how to send the caller details to receiver based on caller_config (Use: utils.getRedactedInfo(caller_config))
-  */
-
-    /*
-      requestBody: {
-        device_id: str,
-        caller_number: str
-        device_time: str/time
-      }
-
-      response: {
-        notify: Bool,
-        info: {
-          // dict containing caller info
-        },
-        redactionType: Enum('plaintext', 'masked', 'redacted')
-      }
-    */
+  if(shouldBlock(receiver_details["config"]["blocked_calls"], caller_details)) {
+    res.send({
+      allow: false
+    })
+  } else {
+    let redactedNumber = getRedactedNumber(caller_details, receiver_details, isMyContact)
+    res.send({
+      allow: true,
+      caller_number: redactedNumber
+    })
+  }
 })
 
 app.listen(port, () => {
