@@ -8,6 +8,7 @@ export const shouldBlock= (receiver_rules, caller_details) => {
     const isCallerBusiness = caller_details["is_business"]
     const isCallerSpam = caller_details["is_spam"]
 
+
     return (callerCountry in blockedCountries || (blockBusiness && isCallerBusiness) && (blockSpam && isCallerSpam))
 }
 
@@ -34,10 +35,12 @@ export const getRedactedNumber = (caller_details, receiver_details, isMyContact)
     if(isReceiverForeign) {
         [result, maxRedaction] = redact(result, foreign_num, maxRedaction)
     }
+
+    return result
 }
 
 const redact = (number, redactionType, maxRedaction) => {
-    if((redactionType == "PLAIN_TEXT" ) || (maxRedaction == redactionType)
+    if((redactionType == "PLAIN_TEXT" ) || (maxRedaction == redactionType) ||
     (maxRedaction == "REDACTED" && redactionType == "MASKED") ||
     (maxRedaction == "MASKED" && redactionType == "PLAIN_TEXT")) {
         return [number, maxRedaction]
@@ -54,7 +57,7 @@ const maskNumber = (phoneNumber) => {
     for(let i=2; i < phoneNumber.length-2; i++) {
         result += "*"
     }
-    result += phonenumber[phoneNumber.length-2] + phonenumber[phoneNumber.length-1]
+    result += phoneNumber[phoneNumber.length-2] + phoneNumber[phoneNumber.length-1]
 
     return result
 }
