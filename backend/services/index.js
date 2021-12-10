@@ -1,3 +1,5 @@
+import axios from 'axios'
+const token = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2MiOiJmNzk0ZmY4NmZiYzgxMWVhYmQ2YzNhOTExNDNlM2Q0MiIsImF1ZCI6Imh0dHBzOi8vbWFuYWdlLnNreWZsb3dhcGlzLmRldiIsImV4cCI6MTYzOTIwMTU0MjQxNCwiaWF0IjoxNjM5MTE1MTQyNDE0LCJpc3MiOiJzYS1hdXRoQG1hbmFnZS5za3lmbG93YXBpcy5kZXYiLCJqdGkiOiJkYTkwYjg3ZTczZTY0YTljODdiMjc1NWFjZDZhMzMyNiIsInN1YiI6ImEyMWE0MDI3MmM5MjQ1YzQ4ODZjNDFlNjU4NDdjMTMxIn0.XWlUBIbNha6xPW-hCmKgK7e30mmdRGpxFirv6nJYJiW7FnAZ6-crVBIVDifTPG3OvZ0iqWDPKSo8-8cNOdPbmH3wa4umuHwj0dD4Dsugysp_eLRCVcSvcFacZ9j5bcLmPbsxMzDMLCPAGHFJ7Xp_0gKDt-9j-dMnDCMIg2mCMtA8AX4v5xqfr5DU1nNax9p8-FZdTs8PruPQLGfr4WlBZR631wLc0z2f7kvC-gTP7VCJ2k23zGatW34uVPIhMRqOdMyTUWTZFaCnWWNVc3u_j5BvPkbVTeN_rjP0uslvbZ2YaUjs3XvsJDLX9NfVOAEKItPUGBaY9GQaEMQzKBYIIQ'
 
 export const shouldBlock= (receiver_rules, caller_details) => {
     const blockedCountries = getCountrySet(receiver_rules["blocked_countries"])
@@ -70,3 +72,25 @@ const maskNumber = (phoneNumber) => {
 }
 
 const redactNumber = (phoneNumber) => phoneNumber.replace(/[0-9]/g, "*")
+const headers = { authorization: token };
+export const getSkyflowIdByPhoneNumber = (phoneNumber)=>{
+
+    const query = `select redaction(skyflow_id,'PLAIN_TEXT') from table1 where phonenumber = ${phoneNumber};`
+
+    return axios.post(
+        'https://sb.area51.vault.skyflowapis.dev/v1/vaults/e728297fbdf846cfacff7fa13adb8b15/query',
+        {
+         query:query
+        },
+        {
+          headers,
+        },
+      ).then((res)=>{
+          return res.data
+      }).catch((err)=>{
+          console.log('Error',err)
+      })
+
+      
+
+}
