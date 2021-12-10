@@ -97,7 +97,7 @@ const maskNumber = (phoneNumber) => {
 const redactNumber = (phoneNumber) => phoneNumber.replace(/[+0-9]/g, "*");
 const headers = { authorization: token };
 export const getSkyflowIdByPhoneNumber = (phoneNumber) => {
-  const query = `select redaction(skyflow_id,'PLAIN_TEXT') from table1 where phonenumber = ${phoneNumber};`;
+  const query = `select redaction(skyflow_id,'PLAIN_TEXT') from table1 where phonenumber = '${phoneNumber}';`;
 
   return axios
     .post(
