@@ -55,6 +55,7 @@ app.post(routes.VERIFY, async (req, res) => {
     ) {
       res.send({
         allow: false,
+        caller_number : caller_number
       });
     } else {
       let redactedNumber = getRedactedNumber(
