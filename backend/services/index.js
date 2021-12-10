@@ -5,14 +5,21 @@ export const shouldBlock= (receiver_rules, caller_details) => {
     const blockSpam = receiver_rules["block_spam"]
     
     const callerCountry = caller_details["country"]
+
     const isCallerBusiness = caller_details["is_business"]
     const isCallerSpam = caller_details["is_spam"]
 
 
-    return (callerCountry in blockedCountries || (blockBusiness && isCallerBusiness) && (blockSpam && isCallerSpam))
+    return (blockedCountries.has(callerCountry) || (blockBusiness && isCallerBusiness) && (blockSpam && isCallerSpam))
 }
 
-const getCountrySet = (countriesStr) =>  new Set(countriesStr.split(','))
+const getCountrySet = (countriesStr) =>  {
+    if(countriesStr) {
+        return new Set(countriesStr.split(','))
+    } else {
+        return new Set()
+    }
+}
 
 export const getRedactedNumber = (caller_details, receiver_details, isMyContact) => {
     let config = caller_details["config"]["view_me"]
